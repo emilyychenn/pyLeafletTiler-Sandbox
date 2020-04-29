@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Leaflet Tutorial
+    </title>
+    <meta charset="utf-8">
+    <!--JS from Leaflet, version 1.4.0-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js" integrity="sha256-6BZRSENq3kxI4YYBDqJ23xg0r1GwTHEpvp3okdaIqBw=" crossorigin="anonymous"></script>
+    <!--CSS from Leaflet, version 1.4.0-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css" integrity="sha256-YR4HrDE479EpYZgeTkQfgVJq08+277UXxMLbi/YP69o=" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha256-siofc4Uwjlra3YWkwthOn8Uj69cNN4aMug/iOHNiRgs=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" integrity="sha256-XzD3RpaHPv7lzX9qt+2n1j5cWj48O24KsgaGYpKN8x8=" crossorigin="anonymous" />
+    <script crossorigin="anonymous" integrity=
+    "sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" src=
+    "https://code.jquery.com/jquery-3.4.0.min.js">
+    </script>
+  </head>
+  <body>
+    <div id="serverstatus" style="height:5mm">
+    </div>
+
+    <div id="map" style="width: 100hh; height: 98vh; border: 1px solid #ccc">
+    </div>
+    <script>
+    function postJSONData(JSONData, resID)
+    {
+        $.ajax({
+          type: "POST",
+          url: "https://git.sarlab.ca:5050/storeJSON/"+resID,
+          contentType:"application/json",
+          data:  JSONData
+        })
+        .done(function() {
+          $("#serverstatus")[0].innerHTML = "SAVED";
+        })
+        .fail(function() {
+          alert( "error" );
+        })
+        .always(function() {
+          // whatever we'd do in all cases
+        });
+    };
+    function getJSONData(resID, fGroup)
+    {
+        $.ajax({
+          type: "GET",
+          url: "https://cocalc.sarlab.ca:5050/readJSON/"+resID,
+          dataType: 'json'
+        })
+        .done(function(data) {
+          $("#serverstatus")[0].innerHTML = "Server Data Loaded.";
+          L.geoJson(data["features"], {
+            onEachFeature: function (feature, layer) {
+              fGroup.addLayer(layer);
+            }
+          });
+          $("#serverstatus")[0].innerHTML = "Loaded Annotations added to Image.";
+        })
+        .fail(function(data) {
+          if (data['status'] == 404) {
+            $("#serverstatus")[0].innerHTML = "No annotations found on Server.";
+          } else {
+            alert("Error Loading Data");
+          };
+        });
+    }
+    var map = new L.map('map', {       
+        maxZoom: 7,
+        minZoom: 1,
+        crs: L.CRS.Simple
+      }).setView([0,0], 1),
+      drawnItems = L.featureGroup().addTo(map),
+      sourcelabels = L.layerGroup().addTo(map),
+      histolayer = L.tileLayer('tiles/{z}/tile_{x}_{y}.png', {
+        attribution: 'AIMlab'}).addTo(map);
+    var overlays = {"Source Labels": sourcelabels,
+                    "Annotations": drawnItems};
+    L.control.layers(
+      {'histo': histolayer},
+      overlays, 
+      { position: 'topleft', collapsed: true }).addTo(map);
+    map.addControl(new L.Control.Draw({
+        edit: {featureGroup: drawnItems,
+            poly: {allowIntersection: false}
+              },
+        draw: {polygon: {allowIntersection: false,
+                         showArea: true}
+              }
+    }));
+    // load server data
+    getJSONData("8888", drawnItems);
+
+    // define event hooks to save data etc.
+    map.on('draw:drawstart draw:editstart draw:deletestart', function (event){
+      $("#serverstatus")[0].innerHTML = "NOT YET SAVED";
+    });
+    map.on('draw:created', function (event) {
+      var layer = event.layer;
+      drawnItems.addLayer(layer);
+      postJSONData(JSON.stringify(drawnItems.toGeoJSON()), "8888");
+    });
+    map.on('draw:edited draw:deleted', function (event) {
+      var layer = event.layer;
+      postJSONData(JSON.stringify(drawnItems.toGeoJSON()), "8888");
+    });
+      
+    // https://gis.stackexchange.com/questions/59571/how-to-add-text-only-labels-on-leaflet-map-with-no-icon
+    //opacity may be set to zero for no marker
+    var marker = new L.marker([-39.5, 50], { opacity: 0.2 }); 
+    marker.bindTooltip("some histoname", {
+      permanent: true, className: "my-label", offset: [0, 0] 
+    });
+    marker.addTo(sourcelabels);
+    </script>
+  </body>
+</html>
