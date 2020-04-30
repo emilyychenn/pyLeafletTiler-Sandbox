@@ -32,8 +32,13 @@
 
     <!-- brightness slider -->
     <input type="range" min="0" max="200" value="0" class="slider" id="brightness-slider">
-    <span>Brightness:</span><span id='brightness-value'>0%</span>
+    <span>Brightness: </span><span id='brightness-value'>0%</span>
     <!--end of brightness slider -->
+
+    <!-- contrast slider -->
+    <input type="range" min="0" max="200" value="0" class="slider" id="contrast-slider">
+    <span>Contrast: </span><span id='contrast-value'>0%</span>
+    <!--end of contrast slider -->
 
     <div id="map" style="width: 100hh; height: 98vh; border: 1px solid #ccc">
     </div>
@@ -98,6 +103,16 @@
       var value = e.target.value;
       brightnessSpan.textContent = value + "%";
       histolayer.getContainer().style.filter = "brightness(" + value + "%)";
+    });
+
+    // Contrast slider
+    histolayer.getContainer().style.filter = "contrast(0%)";
+    var slider = document.getElementById("contrast-slider");
+    var contrastSpan = document.getElementById("contrast-value");
+    slider.addEventListener("input", function (e) {
+      var value = e.target.value;
+      contrastSpan.textContent = value + "%";
+      histolayer.getContainer().style.filter = "contrast(" + value + "%)";
     });
 
     var overlays = {"Source Labels": sourcelabels,
