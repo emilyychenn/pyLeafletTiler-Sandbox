@@ -640,4 +640,9 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	left: 0;
 	margin-left: -12px;
 	border-right-color: #fff;
-    }
+	}
+
+/* brightness slider css */
+.slider {
+	width: 250 px;
+}
