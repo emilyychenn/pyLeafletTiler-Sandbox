@@ -30,6 +30,11 @@
     <div id="serverstatus" style="height:5mm">
     </div>
 
+    <!-- brightness slider -->
+    <input type="range" min="0" max="200" value="0" class="slider" id="brightness-slider">
+    <span>Brightness:</span><span id='brightness-value'>0%</span>
+    <!--end of brightness slider -->
+
     <div id="map" style="width: 100hh; height: 98vh; border: 1px solid #ccc">
     </div>
     <script>
@@ -84,6 +89,17 @@
       sourcelabels = L.layerGroup().addTo(map),
       histolayer = L.tileLayer('tiles/{z}/tile_{x}_{y}.png', {
         attribution: 'AIMlab'}).addTo(map);
+
+    // Brightness slider
+    histolayer.getContainer().style.filter = "brightness(0%)";
+    var slider = document.getElementById("brightness-slider");
+    var brightnessSpan = document.getElementById("brightness-value");
+    slider.addEventListener("input", function (e) {
+      var value = e.target.value;
+      brightnessSpan.textContent = value + "%";
+      histolayer.getContainer().style.filter = "brightness(" + value + "%)";
+    });
+
     var overlays = {"Source Labels": sourcelabels,
                     "Annotations": drawnItems};
     L.control.layers(
