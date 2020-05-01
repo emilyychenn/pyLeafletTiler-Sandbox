@@ -33,15 +33,15 @@
     <div class="slider">
       <!-- brightness slider -->
       <div id="brightnessSlider">
-        <input type="range" min="0" max="200" value="0" class="slider" id="brightness-slider">
-        <span>Brightness: </span><span id='brightness-value'>0%</span>
+        <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider">
+        <span>Brightness: </span><span id='brightness-value'>100%</span>
       </div>
       <!--end of brightness slider -->
 
       <!-- contrast slider -->
       <div id="contrastSlider">
-        <input type="range" min="0" max="200" value="0" class="slider" id="contrast-slider">
-        <span>Contrast: </span><span id='contrast-value'>0%</span>
+        <input type="range" min="0" max="200" value="100" class="slider" id="contrast-slider">
+        <span>Contrast: </span><span id='contrast-value'>100%</span>
       </div>
       <!--end of contrast slider -->
 
@@ -109,7 +109,7 @@
         attribution: 'AIMlab'}).addTo(map);
 
     //brightness and contrast slider, hue slider for testing) 
-    histolayer.getContainer().style.filter = "brightness(0%)" + "contrast(0%)" + "hue-rotate(0deg)";
+    histolayer.getContainer().style.filter = "brightness(100%)" + "contrast(100%)" + "hue-rotate(0deg)";
     var slider1 = document.getElementById("brightness-slider");
     var slider2 = document.getElementById("contrast-slider");
     var slider3 = document.getElementById("hue-slider");
@@ -138,7 +138,7 @@
       histolayer.getContainer().style.filter = "hue-rotate(" + this.value + "deg) brightness(" + brightness + "%) contrast(" + contrast + "%)";
     });
     //end of sliders
-    
+
 
     var overlays = {"Source Labels": sourcelabels,
                     "Annotations": drawnItems};
