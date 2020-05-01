@@ -105,7 +105,7 @@
       }).setView([0,0], 1),
       drawnItems = L.featureGroup().addTo(map),
       sourcelabels = L.layerGroup().addTo(map),
-      histolayer = L.tileLayer('tiles/{z}/tile_{x}_{y}.png', {
+      histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
         attribution: 'AIMlab'}).addTo(map);
 
     //brightness and contrast slider, hue slider for testing) 
