@@ -109,7 +109,6 @@
     }
 
     //create the map
-    //var bottomMap = histolayer; // TRY THIS: right now I think there are 3 layers created
     var bottomMap = new L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
       layers: 'BottomLayer',
       maxZoom: 7,
@@ -117,7 +116,7 @@
       format: 'image/png',
       transparent: true
     });
-
+    
     var topMap = new L.tileLayer('./tiles/{z}/tile_{x}_{y}.png', {
       layers: 'TopLayer',
       maxZoom: 7,
@@ -125,6 +124,12 @@
       format: 'image/png',
       transparent: true
     });
+
+    //TODO: for loop to apply blur effect to each tile
+    //var topMapTiles = './tiles/{z}/tile_{x}_{y}.png';
+    //for (tile in topMap.getTileLayer()) {
+    //  tile.style.filter = "blur(50px)";
+    //}
 
     var map = new L.map('map', {
         maxZoom: 7,
