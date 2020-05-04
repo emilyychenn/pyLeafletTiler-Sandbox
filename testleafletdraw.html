@@ -40,8 +40,13 @@
     <div id="serverstatus" style="height:5mm">
     </div>
 
+    <!-- sliders -->
+    <div style="width:100%; display: table;">
+      <div style="display: table-row">
     <!-- slider group 1 -->
     <div class="slider">
+      <div style="width: 600px; display: table-cell;">  
+      <h4>Bottom Layer (Histolayer) Controls</h4>
       <!-- brightness slider -->
       <div id="brightnessSlider">
         <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider">
@@ -59,10 +64,13 @@
         <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider">
         <span>Bottom Map Opacity: </span><span id='opacity-value'>100%</span>
       </div>
+      </div>
     </div>
 
     <!-- slider group 2 -->
     <div class="slider">
+      <div style="display: table-cell;">  
+      <h4>Top/Upper Layer Controls</h4>
       <!-- brightness slider 2 -->
       <div id="brightnessSlider2">
         <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider2">
@@ -80,7 +88,10 @@
         <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider2">
         <span>Top Map Opacity: </span><span id='opacity-value2'>100%</span>
       </div>
+      </div>
     </div>
+  </div>
+  </div>
 
     <div id="map" style="width: 100hh; height: 98vh; border: 1px solid #ccc">
     </div>
