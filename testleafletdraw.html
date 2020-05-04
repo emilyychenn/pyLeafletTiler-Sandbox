@@ -55,8 +55,8 @@
 
       <!-- opacity slider -->
       <div id="opacitySlider">
-        <input type="range" min="0" max="100" value="50" class="slider" id="opacity-slider">
-        <span>Bottom Map Opacity: </span><span id='opacity-value'>50%</span>
+        <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider">
+        <span>Bottom Map Opacity: </span><span id='opacity-value'>100%</span>
       </div>
       <!--end of opacity slider -->
     </div>
@@ -109,6 +109,7 @@
     }
 
     //create the map
+    //var bottomMap = histolayer; // TRY THIS: right now I think there are 3 layers created
     var bottomMap = new L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
       layers: 'BottomLayer',
       maxZoom: 7,
