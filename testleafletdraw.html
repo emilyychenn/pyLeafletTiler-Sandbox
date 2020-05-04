@@ -40,27 +40,46 @@
     <div id="serverstatus" style="height:5mm">
     </div>
 
+    <!-- slider group 1 -->
     <div class="slider">
       <!-- brightness slider -->
       <div id="brightnessSlider">
         <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider">
         <span>Brightness: </span><span id='brightness-value'>100%</span>
       </div>
-      <!--end of brightness slider -->
 
       <!-- contrast slider -->
       <div id="contrastSlider">
         <input type="range" min="0" max="200" value="100" class="slider" id="contrast-slider">
         <span>Contrast: </span><span id='contrast-value'>100%</span>
       </div>
-      <!--end of contrast slider -->
 
       <!-- opacity slider -->
       <div id="opacitySlider">
         <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider">
         <span>Bottom Map Opacity: </span><span id='opacity-value'>100%</span>
       </div>
-      <!--end of opacity slider -->
+    </div>
+
+    <!-- slider group 2 -->
+    <div class="slider">
+      <!-- brightness slider 2 -->
+      <div id="brightnessSlider2">
+        <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider2">
+        <span>Brightness: </span><span id='brightness-value2'>100%</span>
+      </div>
+
+      <!-- contrast slider -->
+      <div id="contrastSlider2">
+        <input type="range" min="0" max="200" value="100" class="slider" id="contrast-slider2">
+        <span>Contrast: </span><span id='contrast-value2'>100%</span>
+      </div>
+
+      <!-- opacity slider -->
+      <div id="opacitySlider2">
+        <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider2">
+        <span>Top Map Opacity: </span><span id='opacity-value2'>100%</span>
+      </div>
     </div>
 
     <div id="map" style="width: 100hh; height: 98vh; border: 1px solid #ccc">
@@ -144,19 +163,8 @@
       sourcelabels = L.layerGroup().addTo(map),
       histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
         attribution: 'AIMlab'}).addTo(map);
-        
-    //original map
-    //var map = new L.map('map', { 
-      //maxZoom: 7,
-      //minZoom: 1,
-      //crs: L.CRS.Simple
-    //}).setView([0,0], 1),
-    //drawnItems = L.featureGroup().addTo(map),
-    //sourcelabels = L.layerGroup().addTo(map),
-    //histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
-      //attribution: 'AIMlab'}).addTo(map);
 
-    //brightness and contrast slider
+    //brightness and contrast slider, opacity slider for bottom layer
     histolayer.getContainer().style.filter = "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
     var slider1 = document.getElementById("brightness-slider");
     var slider2 = document.getElementById("contrast-slider");
@@ -185,7 +193,36 @@
       opacitySpan.textContent = opacity + "%";
       histolayer.getContainer().style.filter = "opacity(" + this.value + "%) brightness(" + brightness + "%) contrast(" + contrast + "%)";
     })
-    //end of sliders
+
+    //second group of sliders
+    topMap.getContainer().style.filter = "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
+    var slider4 = document.getElementById("brightness-slider2");
+    var slider5 = document.getElementById("contrast-slider2");
+    var slider6 = document.getElementById("opacity-slider2");
+    
+    var brightnessSpan2 = document.getElementById("brightness-value2");
+    var contrastSpan2 = document.getElementById("contrast-value2");
+    var opacitySpan2 = document.getElementById("opacity-value2")
+
+    var brightness2 = slider4.value;
+    var contrast2 = slider5.value;
+    var opacity2 = slider6.value;
+
+    slider4.addEventListener("input", function (e) {
+      brightness2 = e.target.value;
+      brightnessSpan2.textContent = brightness2 + "%";
+      topMap.getContainer().style.filter = "opacity(" + opacity2 + "%) brightness(" + this.value + "%) contrast(" + contrast2 + "%)";
+    });
+    slider5.addEventListener("input", function(e) {
+      contrast2 = e.target.value;
+      contrastSpan2.textContent = contrast2 + "%";
+      topMap.getContainer().style.filter = "opacity(" + opacity2 + "%) brightness(" + brightness2 + "%) contrast(" + this.value + "%)";
+    })
+    slider6.addEventListener("input", function(e) {
+      opacity2 = e.target.value;
+      opacitySpan2.textContent = opacity2 + "%";
+      topMap.getContainer().style.filter = "opacity(" + this.value + "%) brightness(" + brightness2 + "%) contrast(" + contrast2 + "%)";
+    })
 
     //Create the opacity controls
     var higherOpacity = new L.Control.higherOpacity();
@@ -204,7 +241,7 @@
 
     var overlays = {"Source Labels": sourcelabels,
                     "Annotations": drawnItems,
-                    "CityScape image": topMap};
+                    "Top Layer": topMap};
     L.control.layers(
       {'histo': histolayer},
       overlays, 
