@@ -29,6 +29,10 @@
     <link rel="stylesheet" href="Control.Opacity.css" />
     <script src="Control.Opacity.js"></script>
 
+    <script src="OpacitySliderJQuery/jquery-1.9.1.js"></script>
+    <script src="OpacitySliderJQuery/jquery-ui-1.10.3.custom.min.js"></script>
+    <link rel="stylesheet" href="OpacitySliderJQuery/jquery-ui-1.10.3.custom.min.css" />
+
   </head>
   <body>
     <div id="serverstatus" style="height:5mm">
@@ -51,8 +55,8 @@
 
       <!-- opacity slider -->
       <div id="opacitySlider">
-        <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider">
-        <span>Opacity: </span><span id='contrast-value'>100%</span>
+        <input type="range" min="0" max="100" value="50" class="slider" id="opacity-slider">
+        <span>Bottom Map Opacity: </span><span id='contrast-value'>50%</span>
       </div>
       <!--end of opacity slider -->
     </div>
@@ -187,7 +191,7 @@
     //specifies layer which opacity will be modified:
         opacitySlider.setOpacityLayer(topMap);
     //set initial opacity to 0.5
-        topMap.setOpacity(0);
+        topMap.setOpacity(0.5);
 
 
     var overlays = {"Source Labels": sourcelabels,
