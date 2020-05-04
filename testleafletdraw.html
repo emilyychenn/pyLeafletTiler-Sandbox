@@ -25,6 +25,10 @@
     "sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" src=
     "https://code.jquery.com/jquery-3.4.0.min.js"-->
     <!--/script-->
+
+    <link rel="stylesheet" href="Control.Opacity.css" />
+    <script src="Control.Opacity.js"></script>
+
   </head>
   <body>
     <div id="serverstatus" style="height:5mm">
@@ -45,16 +49,17 @@
       </div>
       <!--end of contrast slider -->
 
-      <!-- hue slider -->
-      <div id="hueSlider">
-        <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider">
-        <span>Hue: </span><span id='hue-value'>0</span>
+      <!-- opacity slider -->
+      <div id="opacitySlider">
+        <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider">
+        <span>Opacity: </span><span id='contrast-value'>100%</span>
       </div>
-      <!--end of hue slider -->
+      <!--end of opacity slider -->
     </div>
 
     <div id="map" style="width: 100hh; height: 98vh; border: 1px solid #ccc">
     </div>
+
     <script>
     function postJSONData(JSONData, resID)
     {
@@ -98,46 +103,91 @@
           };
         });
     }
-    var map = new L.map('map', {       
+
+    //create the map
+    var bottomMap = new L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
+      layers: 'BottomLayer',
+      maxZoom: 7,
+      minZoom: 1,
+      format: 'image/png',
+      transparent: true
+    });
+
+    var topMap = new L.tileLayer('./tiles/{z}/tile_{x}_{y}.png', {
+      layers: 'TopLayer',
+      maxZoom: 7,
+      minZoom: 1,
+      format: 'image/png',
+      transparent: true
+    });
+
+    var map = new L.map('map', {
         maxZoom: 7,
         minZoom: 1,
-        crs: L.CRS.Simple
+        crs: L.CRS.Simple,
+        layers: [bottomMap, topMap],
+        zoomControl: true
       }).setView([0,0], 1),
       drawnItems = L.featureGroup().addTo(map),
       sourcelabels = L.layerGroup().addTo(map),
       histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
         attribution: 'AIMlab'}).addTo(map);
+      //toplayer = L.tileLayer('./tiles/{z}/tile_{x}_{y}.png');
+        //maybe create a new layer and call it something else?? ^^
+        
+    //original map
+    //var map = new L.map('map', { 
+      //maxZoom: 7,
+      //minZoom: 1,
+      //crs: L.CRS.Simple
+    //}).setView([0,0], 1),
+    //drawnItems = L.featureGroup().addTo(map),
+    //sourcelabels = L.layerGroup().addTo(map),
+    //histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
+      //attribution: 'AIMlab'}).addTo(map);
 
-    //brightness and contrast slider, hue slider for testing) 
-    histolayer.getContainer().style.filter = "brightness(100%)" + "contrast(100%)" + "hue-rotate(0deg)";
+    //brightness and contrast slider
+    histolayer.getContainer().style.filter = "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
     var slider1 = document.getElementById("brightness-slider");
     var slider2 = document.getElementById("contrast-slider");
-    var slider3 = document.getElementById("hue-slider");
+    var slider3 = document.getElementById("opacity-slider");
     
     var brightnessSpan = document.getElementById("brightness-value");
     var contrastSpan = document.getElementById("contrast-value");
-    var hueSpan = document.getElementById("hue-value");
+    var opacitySpan = document.getElementById("opacity-value")
 
     var brightness = slider1.value;
     var contrast = slider2.value;
-    var hue = slider3.value;
+    var opacity = slider3.value;
 
     slider1.addEventListener("input", function (e) {
       brightness = e.target.value;
       brightnessSpan.textContent = brightness + "%";
-      histolayer.getContainer().style.filter = "hue-rotate(" + hue + "deg) brightness(" + this.value + "%) contrast(" + contrast + "%)";
+      histolayer.getContainer().style.filter = "opacity(" + opacity + "%) brightness(" + this.value + "%) contrast(" + contrast + "%)";
     });
     slider2.addEventListener("input", function(e) {
       contrast = e.target.value;
       contrastSpan.textContent = contrast + "%";
-      histolayer.getContainer().style.filter = "hue-rotate(" + hue + "deg) brightness(" + brightness + "%) contrast(" + this.value + "%)";
+      histolayer.getContainer().style.filter = "opacity(" + opacity + "%) brightness(" + brightness + "%) contrast(" + this.value + "%)";
     })
-    slider3.addEventListener("input", function (e) {
-      hue = e.target.value;
-      hueSpan.textContent = hue + " degrees";
-      histolayer.getContainer().style.filter = "hue-rotate(" + this.value + "deg) brightness(" + brightness + "%) contrast(" + contrast + "%)";
-    });
+    slider3.addEventListener("input", function(e) {
+      opacity = e.target.value;
+      opacitySpan.textContent = opacity + "%";
+      histolayer.getContainer().style.filter = "opacity(" + this.value + "%) brightness(" + brightness + "%) contrast(" + contrast + "%)";
+    })
     //end of sliders
+
+    //Create the opacity controls
+    var higherOpacity = new L.Control.higherOpacity();
+    map.addControl(higherOpacity);
+    var lowerOpacity = new L.Control.lowerOpacity();
+    map.addControl(lowerOpacity);
+    var opacitySlider = new L.Control.opacitySlider();
+    map.addControl(opacitySlider);
+    //specifies layer which opacity will be modified:
+        opacitySlider.setOpacityLayer(topMap);
+    //set initial opacity to 0.5
+        topMap.setOpacity(0);
 
 
     var overlays = {"Source Labels": sourcelabels,
