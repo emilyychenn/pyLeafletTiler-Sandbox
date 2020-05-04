@@ -56,7 +56,7 @@
       <!-- opacity slider -->
       <div id="opacitySlider">
         <input type="range" min="0" max="100" value="50" class="slider" id="opacity-slider">
-        <span>Bottom Map Opacity: </span><span id='contrast-value'>50%</span>
+        <span>Bottom Map Opacity: </span><span id='opacity-value'>50%</span>
       </div>
       <!--end of opacity slider -->
     </div>
@@ -184,14 +184,16 @@
     //Create the opacity controls
     var higherOpacity = new L.Control.higherOpacity();
     map.addControl(higherOpacity);
+    higherOpacity.setOpacityLayer(topMap);
     var lowerOpacity = new L.Control.lowerOpacity();
     map.addControl(lowerOpacity);
+    lowerOpacity.setOpacityLayer(topMap);
     var opacitySlider = new L.Control.opacitySlider();
     map.addControl(opacitySlider);
     //specifies layer which opacity will be modified:
         opacitySlider.setOpacityLayer(topMap);
     //set initial opacity to 0.5
-        topMap.setOpacity(0.5);
+        //topMap.setOpacity(0.5);
 
 
     var overlays = {"Source Labels": sourcelabels,
