@@ -45,7 +45,6 @@
     <table style="width:100%">
     <div style="width:100%; display: table;">
     <tr>
-      <button type="button" class="collapsible">Open Collapsible</button>
           <div class="slider1">
             <td>Bottom Layer (Histolayer): </td> 
             <!-- brightness slider -->
@@ -64,7 +63,6 @@
               <span>Bottom Map Opacity: </span><span id='opacity-value'>100%   </span>
             </td>
           </div>
-        </div>
     </tr>
 
     <tr>
@@ -165,13 +163,6 @@
       sourcelabels = L.layerGroup().addTo(map),
       histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
         attribution: 'AIMlab'}).addTo(map);
-  
-  //based on which layer is selected, brightness controls will control that layer
-  function chooseLayer(toggle_input) {
-    if (1==1) {
-      return true;
-    }
-  }
 
     //brightness and contrast slider, opacity slider for bottom layer
     histolayer.getContainer().style.filter = "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
