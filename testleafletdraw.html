@@ -39,57 +39,54 @@
     </div>
 
     <!-- sliders -->
+    <table style="width:100%">
     <div style="width:100%; display: table;">
-      <div style="display: table-row">
+      <!--div style="display: table-row"-->
     <!-- slider group 1 -->
-    <div class="slider">
-      <div style="width: 600px; display: table-cell;">  
-      <h4>Bottom Layer (Histolayer) Controls</h4>
+    <tr>
+    <div class="slider1">
+      <td>Bottom Layer (Histolayer): </td> 
       <!-- brightness slider -->
-      <div id="brightnessSlider">
+      <td>
         <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider">
         <span>Brightness: </span><span id='brightness-value'>100%</span>
-      </div>
-
+      </td>
       <!-- contrast slider -->
-      <div id="contrastSlider">
+      <td>
         <input type="range" min="0" max="200" value="100" class="slider" id="contrast-slider">
         <span>Contrast: </span><span id='contrast-value'>100%</span>
-      </div>
-
+      </td>
       <!-- opacity slider -->
-      <div id="opacitySlider">
+      <td>
         <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider">
-        <span>Bottom Map Opacity: </span><span id='opacity-value'>100%</span>
-      </div>
-      </div>
+        <span>Bottom Map Opacity: </span><span id='opacity-value'>100%   </span>
+      </td>
     </div>
+    </tr>
 
     <!-- slider group 2 -->
-    <div class="slider">
-      <div style="display: table-cell;">  
-      <h4>Top/Upper Layer Controls</h4>
+    <tr>
+    <div class="slider2"> 
+      <td>Top/Upper Layer: </td>
       <!-- brightness slider 2 -->
-      <div id="brightnessSlider2">
+      <td>
         <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider2">
         <span>Brightness: </span><span id='brightness-value2'>100%</span>
-      </div>
-
+      </td>
       <!-- contrast slider -->
-      <div id="contrastSlider2">
+      <td>
         <input type="range" min="0" max="200" value="100" class="slider" id="contrast-slider2">
         <span>Contrast: </span><span id='contrast-value2'>100%</span>
-      </div>
-
+      </td>
       <!-- opacity slider -->
-      <div id="opacitySlider2">
+      <td>
         <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider2">
         <span>Top Map Opacity: </span><span id='opacity-value2'>100%</span>
-      </div>
-      </div>
+      </td>
     </div>
+    </tr>
   </div>
-  </div>
+</table>
 
     <div id="map" style="width: 100hh; height: 98vh; border: 1px solid #ccc">
     </div>
@@ -181,7 +178,7 @@
     
     var brightnessSpan = document.getElementById("brightness-value");
     var contrastSpan = document.getElementById("contrast-value");
-    var opacitySpan = document.getElementById("opacity-value")
+    var opacitySpan = document.getElementById("opacity-value");
 
     var brightness = slider1.value;
     var contrast = slider2.value;
