@@ -642,8 +642,23 @@ svg.leaflet-image-layer.leaflet-interactive path {
 	border-right-color: #fff;
 	}
 
-/* brightness slider css */
-.slider {
-	width: 250 px;
+/* sliders css */
+.slider1 {
+	width: 800 px;
+	/* width: 250 px;
+	float: left; */
 	background-color: #fff;
+}
+
+.slider2{
+	width: 1000px;
+	/* width: 250 px;
+	padding-left: 100 px; */
+	background-color: #fff;
+}
+
+/* sliders div table formatting */
+.sliders-table {
+	width: 100%;
+	display: table;
 }
