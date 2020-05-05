@@ -8,6 +8,7 @@
     <!--JS from Leaflet, version 1.4.0, as a local file-->
     <script type="text/javascript" src="leaflet.js"></script>
     <!--script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js" integrity="sha256-6BZRSENq3kxI4YYBDqJ23xg0r1GwTHEpvp3okdaIqBw=" crossorigin="anonymous"--><!--/script-->
+    
     <!--CSS from Leaflet, version 1.4.0-->
     <link rel="stylesheet" type="text/css" href="leaflet.css">
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css" integrity="sha256-YR4HrDE479EpYZgeTkQfgVJq08+277UXxMLbi/YP69o=" crossorigin="anonymous" /-->
@@ -15,6 +16,7 @@
     <!--js for drawing tools-->
     <script type="text/javascript" src="leaflet_draw.js"></script>
     <!--script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha256-siofc4Uwjlra3YWkwthOn8Uj69cNN4aMug/iOHNiRgs=" crossorigin="anonymous"></script-->
+    
     <!--css for drawing tools-->
     <link rel="stylesheet" type="text/css" href="leaflet-draw.css">
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" integrity="sha256-XzD3RpaHPv7lzX9qt+2n1j5cWj48O24KsgaGYpKN8x8=" crossorigin="anonymous" /-->
@@ -35,14 +37,11 @@
 
   </head>
   <body>
-    <div id="serverstatus" style="height:5mm">
-    </div>
+    <div id="serverstatus" style="height:5mm"></div>
 
     <!-- sliders -->
     <table style="width:100%">
     <div style="width:100%; display: table;">
-      <!--div style="display: table-row"-->
-    <!-- slider group 1 -->
     <tr>
     <div class="slider1">
       <td>Bottom Layer (Histolayer): </td> 
@@ -61,10 +60,20 @@
         <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider">
         <span>Bottom Map Opacity: </span><span id='opacity-value'>100%   </span>
       </td>
+      <td>
+         <!-- drop down menu for toggling controls-->
+        <div class="dropdown">
+          <button class="dropbtn">Layer</button>
+          <div class="dropdown-content">
+            <a href="#slider2">Top Layer</a>
+            <a href="#slider1">Histolayer</a>
+        </div>
+  </div>
+
+      </td>
     </div>
     </tr>
 
-    <!-- slider group 2 -->
     <tr>
     <div class="slider2"> 
       <td>Top/Upper Layer: </td>
@@ -73,12 +82,12 @@
         <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider2">
         <span>Brightness: </span><span id='brightness-value2'>100%</span>
       </td>
-      <!-- contrast slider -->
+      <!-- contrast slider 2 -->
       <td>
         <input type="range" min="0" max="200" value="100" class="slider" id="contrast-slider2">
         <span>Contrast: </span><span id='contrast-value2'>100%</span>
       </td>
-      <!-- opacity slider -->
+      <!-- opacity slider 2 -->
       <td>
         <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider2">
         <span>Top Map Opacity: </span><span id='opacity-value2'>100%</span>
@@ -136,12 +145,12 @@
     }
 
     //create the map
-    var bottomMap = new L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
+    var bottomMap = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
       layers: 'BottomLayer',
       maxZoom: 7,
       minZoom: 1,
       format: 'image/png',
-      transparent: true
+      transparent: true,
     });
     
     var topMap = new L.tileLayer('./tiles/{z}/tile_{x}_{y}.png', {
@@ -151,12 +160,6 @@
       format: 'image/png',
       transparent: true
     });
-
-    //TODO: for loop to apply blur effect to each tile
-    //var topMapTiles = './tiles/{z}/tile_{x}_{y}.png';
-    //for (tile in topMap.getTileLayer()) {
-    //  tile.style.filter = "blur(50px)";
-    //}
 
     var map = new L.map('map', {
         maxZoom: 7,
@@ -169,6 +172,13 @@
       sourcelabels = L.layerGroup().addTo(map),
       histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
         attribution: 'AIMlab'}).addTo(map);
+  
+  //based on which layer is selected, brightness controls will control that layer
+  function chooseLayer(toggle_input) {
+    if (1==1) {
+      return true;
+    }
+  }
 
     //brightness and contrast slider, opacity slider for bottom layer
     histolayer.getContainer().style.filter = "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
@@ -233,10 +243,8 @@
     //Create the opacity controls
     var higherOpacity = new L.Control.higherOpacity();
     map.addControl(higherOpacity);
-    higherOpacity.setOpacityLayer(topMap);
     var lowerOpacity = new L.Control.lowerOpacity();
     map.addControl(lowerOpacity);
-    lowerOpacity.setOpacityLayer(topMap);
     var opacitySlider = new L.Control.opacitySlider();
     map.addControl(opacitySlider);
     //specifies layer which opacity will be modified:
@@ -244,6 +252,7 @@
     //set initial opacity to 0.5
         //topMap.setOpacity(0.5);
 
+    var baseLayers = {"Histolayer": histolayer};
 
     var overlays = {"Source Labels": sourcelabels,
                     "Annotations": drawnItems,
