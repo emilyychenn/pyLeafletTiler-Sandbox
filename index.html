@@ -123,7 +123,8 @@
     }
 
     //create the map
-    var bottomMap = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
+    //var bottomMap = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
+      var bottomMap = L.tileLayer('./test_tiles2/{z}/map_{x}_{y}.png', {
       layers: 'BottomLayer',
       maxZoom: 7,
       minZoom: 1,
@@ -132,7 +133,7 @@
     });
 
     //var topMap = new L.tileLayer('./tiles/{z}/tile_{x}_{y}.png', {
-    var topMap = L.tileLayer('./test_tiles6/{z}/map_{x}_{y}.png', {
+    var topMap = L.tileLayer('./test_tiles2/{z}/map_{x}_{y}.png', {
     //var topMap = L.tileLayer('./test_tiles/{z}/{x}/{y}.png', {
       layers: 'TopLayer',
       maxZoom: 7,
@@ -152,7 +153,8 @@
     }).setView([0, 0], 1),
       drawnItems = L.featureGroup().addTo(map),
       sourcelabels = L.layerGroup().addTo(map),
-      histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
+      histolayer = L.tileLayer('./test_tiles2/{z}/map_{x}_{y}.png', {
+      //histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
         attribution: 'AIMlab'
       }).addTo(map);
 
@@ -270,7 +272,8 @@
 
     // https://gis.stackexchange.com/questions/59571/how-to-add-text-only-labels-on-leaflet-map-with-no-icon
     //opacity may be set to zero for no marker
-    var marker = new L.marker([-39.5, 50], { opacity: 0.2 });
+    //var marker = new L.marker([-39.5, 50], { opacity: 0.2 });
+    var marker = new L.marker([-139, 50], { opacity: 0.2 });
     marker.bindTooltip("some histoname", {
       permanent: true, className: "my-label", offset: [0, 0]
     });
