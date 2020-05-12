@@ -36,7 +36,7 @@
 <body>
   <div id="serverstatus" style="height:5mm"></div>
 
-  <!-- brightness, contrast, opacity sliders -->
+  <!-- brightness, contrast, opacity, hue sliders -->
   <table style="width:100%">
     <div style="width:100%; display: table;">
       <tr>
@@ -53,6 +53,10 @@
           <td>
             <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider">
             <span>Bottom Map Opacity: </span><span id='opacity-value'>100% </span>
+          </td>
+          <td>
+            <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider">
+            <span>Hue: </span><span id='hue-value'>0 degrees</span>
           </td>
         </div>
       </tr>
@@ -72,10 +76,16 @@
             <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider2">
             <span>Top Map Opacity: </span><span id='opacity-value2'>100%</span>
           </td>
+          <td>
+            <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider2">
+            <span>Hue: </span><span id='hue-value2'>0 degrees</span>
+          </td>
         </div>
       </tr>
     </div>
   </table>
+
+  
 
   <div id="map" style="width: 100hh; height: 98vh; border: 1px solid #ccc">
   </div>
@@ -123,8 +133,8 @@
     }
 
     //create the map
-    //var bottomMap = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
-      var bottomMap = L.tileLayer('./test_tiles2/{z}/map_{x}_{y}.png', {
+    var bottomMap = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
+      //var bottomMap = L.tileLayer('./test_tiles2/{z}/map_{x}_{y}.png', {
       layers: 'BottomLayer',
       maxZoom: 7,
       minZoom: 1,
@@ -153,70 +163,87 @@
     }).setView([0, 0], 1),
       drawnItems = L.featureGroup().addTo(map),
       sourcelabels = L.layerGroup().addTo(map),
-      histolayer = L.tileLayer('./test_tiles2/{z}/map_{x}_{y}.png', {
-      //histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
+      //histolayer = L.tileLayer('./test_tiles2/{z}/map_{x}_{y}.png', {
+      histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
         attribution: 'AIMlab'
       }).addTo(map);
 
     //brightness and contrast slider, opacity slider for bottom layer
-    histolayer.getContainer().style.filter = "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
+    histolayer.getContainer().style.filter = "hue-rotate(0deg)" + "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
     var slider1 = document.getElementById("brightness-slider");
     var slider2 = document.getElementById("contrast-slider");
     var slider3 = document.getElementById("opacity-slider");
+    var slider7 = document.getElementById("hue-slider");
 
     var brightnessSpan = document.getElementById("brightness-value");
     var contrastSpan = document.getElementById("contrast-value");
     var opacitySpan = document.getElementById("opacity-value");
+    var hueSpan = document.getElementById("hue-value");
 
     var brightness = slider1.value;
     var contrast = slider2.value;
     var opacity = slider3.value;
+    var hue = slider7.value;
 
     slider1.addEventListener("input", function (e) {
       brightness = e.target.value;
       brightnessSpan.textContent = brightness + "%";
-      histolayer.getContainer().style.filter = "opacity(" + opacity + "%) brightness(" + this.value + "%) contrast(" + contrast + "%)";
+      histolayer.getContainer().style.filter = "hue-rotate(" + hue + "deg) opacity(" + opacity + "%) brightness(" + this.value + "%) contrast(" + contrast + "%)";
     });
     slider2.addEventListener("input", function (e) {
       contrast = e.target.value;
       contrastSpan.textContent = contrast + "%";
-      histolayer.getContainer().style.filter = "opacity(" + opacity + "%) brightness(" + brightness + "%) contrast(" + this.value + "%)";
-    })
+      histolayer.getContainer().style.filter = "hue-rotate(" + hue + "deg) opacity(" + opacity + "%) brightness(" + brightness + "%) contrast(" + this.value + "%)";
+    });
     slider3.addEventListener("input", function (e) {
       opacity = e.target.value;
       opacitySpan.textContent = opacity + "%";
-      histolayer.getContainer().style.filter = "opacity(" + this.value + "%) brightness(" + brightness + "%) contrast(" + contrast + "%)";
-    })
+      histolayer.getContainer().style.filter = "hue-rotate(" + hue + "deg) opacity(" + this.value + "%) brightness(" + brightness + "%) contrast(" + contrast + "%)";
+    });
+    slider7.addEventListener("input", function (e) {
+      hue = e.target.value;
+      hueSpan.textContent = hue + " degrees";
+      histolayer.getContainer().style.filter = "hue-rotate(" + this.value + "deg) opacity(" + opacity + "%) brightness(" + brightness + "%) contrast(" + contrast + "%)";
+    });
 
     //second group of sliders
-    topMap.getContainer().style.filter = "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
+    topMap.getContainer().style.filter = "hue-rotate(0deg)" + "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
+    topMap.getContainer().style.filter = "sepia(50%)" + "hue-rotate(100deg)";
     var slider4 = document.getElementById("brightness-slider2");
     var slider5 = document.getElementById("contrast-slider2");
     var slider6 = document.getElementById("opacity-slider2");
+    var slider8 = document.getElementById("hue-slider2");
 
     var brightnessSpan2 = document.getElementById("brightness-value2");
     var contrastSpan2 = document.getElementById("contrast-value2");
-    var opacitySpan2 = document.getElementById("opacity-value2")
+    var opacitySpan2 = document.getElementById("opacity-value2");
+    var hueSpan2 = document.getElementById("hue-value2");
 
     var brightness2 = slider4.value;
     var contrast2 = slider5.value;
     var opacity2 = slider6.value;
+    var hue2 = slider8.value;
 
     slider4.addEventListener("input", function (e) {
       brightness2 = e.target.value;
       brightnessSpan2.textContent = brightness2 + "%";
-      topMap.getContainer().style.filter = "opacity(" + opacity2 + "%) brightness(" + this.value + "%) contrast(" + contrast2 + "%)";
+      topMap.getContainer().style.filter = "hue-rotate(" + hue2 + "deg) opacity(" + opacity2 + "%) brightness(" + this.value + "%) contrast(" + contrast2 + "%)";
     });
     slider5.addEventListener("input", function (e) {
       contrast2 = e.target.value;
       contrastSpan2.textContent = contrast2 + "%";
-      topMap.getContainer().style.filter = "opacity(" + opacity2 + "%) brightness(" + brightness2 + "%) contrast(" + this.value + "%)";
-    })
+      topMap.getContainer().style.filter = "hue-rotate(" + hue2 + "deg) opacity(" + opacity2 + "%) brightness(" + brightness2 + "%) contrast(" + this.value + "%)";
+    });
     slider6.addEventListener("input", function (e) {
       opacity2 = e.target.value;
       opacitySpan2.textContent = opacity2 + "%";
-      topMap.getContainer().style.filter = "opacity(" + this.value + "%) brightness(" + brightness2 + "%) contrast(" + contrast2 + "%)";
-    })
+      topMap.getContainer().style.filter = "hue-rotate(" + hue2 + "deg) opacity(" + this.value + "%) brightness(" + brightness2 + "%) contrast(" + contrast2 + "%)";
+    });
+    slider8.addEventListener("input", function (e) {
+      hue2 = e.target.value;
+      hueSpan2.textContent = hue2 + " degrees";
+      histolayer.getContainer().style.filter = "hue-rotate(" + this.value + "deg) opacity(" + opacity2 + "%) brightness(" + brightness2 + "%) contrast(" + contrast2 + "%)";
+    });
 
     //Create the opacity controls
     var higherOpacity = new L.Control.higherOpacity();
