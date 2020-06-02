@@ -16,7 +16,9 @@
 }
 .leaflet-container {
   overflow: hidden;
+  mix-blend-mode: multiply;
 }
+
 .leaflet-tile,
 .leaflet-marker-icon,
 .leaflet-marker-shadow {
@@ -38,6 +40,7 @@
   width: 1600px;
   height: 1600px;
   -webkit-transform-origin: 0 0;
+  mix-blend-mode: multiply;
 }
 .leaflet-marker-icon,
 .leaflet-marker-shadow {
@@ -53,6 +56,7 @@
 .leaflet-container .leaflet-tile {
   max-width: none !important;
   max-height: none !important;
+  mix-blend-mode: multiply; /* newly added line */
 }
 
 .leaflet-container.leaflet-touch-zoom {
@@ -252,6 +256,7 @@
 .leaflet-pane > svg path,
 .leaflet-tile-container {
   pointer-events: none;
+  mix-blend-mode: multiply;
 }
 
 .leaflet-marker-icon.leaflet-interactive,
@@ -670,4 +675,13 @@ svg.leaflet-image-layer.leaflet-interactive path {
 .sliders-table {
   width: 100%;
   display: table;
+}
+
+/* tile layer multiply blend mode */
+.bottomLayer {
+  mix-blend-mode: multiply;
+}
+
+.topLayer {
+  mix-blend-mode: multiply;
 }
