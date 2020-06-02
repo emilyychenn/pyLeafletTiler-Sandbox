@@ -678,6 +678,10 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 
 /* tile layer multiply blend mode */
+.backgroundLayer {
+  mix-blend-mode: multiply;
+}
+
 .bottomLayer {
   mix-blend-mode: multiply;
 }
