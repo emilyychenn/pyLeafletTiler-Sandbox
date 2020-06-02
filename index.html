@@ -131,31 +131,38 @@
           };
         });
     }
-
+ 
     //create the map
     //var bottomMap = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
-    var bottomMap = L.tileLayer('./test_tiles4/{z}/map_{x}_{y}.png', {
+    var bottomMap = L.tileLayer('./pimo_tiles/{z}/map_{x}_{y}.png', {
       layers: 'BottomLayer',
-      maxZoom: 4,
+      maxZoom: 5,
       minZoom: 1,
       format: 'image/png',
       transparent: true,
+      className: 'bottomLayer'
     });
 
     //var topMap = new L.tileLayer('./tiles/{z}/tile_{x}_{y}.png', {
-    var topMap = L.tileLayer('./test_tiles4/{z}/map_{x}_{y}.png', {
+    var topMap = L.tileLayer('./carbo_CD31 tiles/{z}/map_{x}_{y}.png', {
     //var topMap = L.tileLayer('./test_tiles/{z}/{x}/{y}.png', {
       layers: 'TopLayer',
-      maxZoom: 4,
+      maxZoom: 5,
       minZoom: 1,
       format: 'image/png',
       transparent: true,
       crs: L.CRS.Simple,
-      zoomControl: true
+      zoomControl: true,
+      className: 'topLayer'
     });
+  
+    //topMap.style.innerHTML = '#target {mix-blend-mode: multiply}';
+    //document.head.appendChild(topMap)
+
+    //topMap.style.mix-blend-mode; 'multiply';
 
     var map = new L.map('map', {
-      maxZoom: 4,
+      maxZoom: 5,
       minZoom: 1,
       crs: L.CRS.Simple,
       layers: [bottomMap, topMap],
@@ -163,11 +170,11 @@
     }).setView([0, 0], 1),
       drawnItems = L.featureGroup().addTo(map),
       sourcelabels = L.layerGroup().addTo(map),
-      histolayer = L.tileLayer('./test_tiles4/{z}/map_{x}_{y}.png', {
+      histolayer = L.tileLayer('./pimo_tiles/{z}/map_{x}_{y}.png', {
       //histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
         attribution: 'AIMlab'
       }).addTo(map);
-
+   
     //brightness and contrast slider, opacity slider for bottom layer
     histolayer.getContainer().style.filter = "hue-rotate(0deg)" + "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
     var slider1 = document.getElementById("brightness-slider");
@@ -299,7 +306,7 @@
     // https://gis.stackexchange.com/questions/59571/how-to-add-text-only-labels-on-leaflet-map-with-no-icon
     //opacity may be set to zero for no marker
     //var marker = new L.marker([-39.5, 50], { opacity: 0.2 });
-    var marker = new L.marker([-139, 50], { opacity: 0.2 });
+    var marker = new L.marker([-50, 50], { opacity: 0.5 });
     marker.bindTooltip("some histoname", {
       permanent: true, className: "my-label", offset: [0, 0]
     });
