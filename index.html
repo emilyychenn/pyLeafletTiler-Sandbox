@@ -133,20 +133,20 @@
     }
 
     //create the map
-    var bottomMap = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
-      //var bottomMap = L.tileLayer('./test_tiles2/{z}/map_{x}_{y}.png', {
+    //var bottomMap = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
+    var bottomMap = L.tileLayer('./test_tiles4/{z}/map_{x}_{y}.png', {
       layers: 'BottomLayer',
-      maxZoom: 7,
+      maxZoom: 4,
       minZoom: 1,
       format: 'image/png',
       transparent: true,
     });
 
     //var topMap = new L.tileLayer('./tiles/{z}/tile_{x}_{y}.png', {
-    var topMap = L.tileLayer('./test_tiles2/{z}/map_{x}_{y}.png', {
+    var topMap = L.tileLayer('./test_tiles4/{z}/map_{x}_{y}.png', {
     //var topMap = L.tileLayer('./test_tiles/{z}/{x}/{y}.png', {
       layers: 'TopLayer',
-      maxZoom: 7,
+      maxZoom: 4,
       minZoom: 1,
       format: 'image/png',
       transparent: true,
@@ -155,7 +155,7 @@
     });
 
     var map = new L.map('map', {
-      maxZoom: 7,
+      maxZoom: 4,
       minZoom: 1,
       crs: L.CRS.Simple,
       layers: [bottomMap, topMap],
@@ -163,8 +163,8 @@
     }).setView([0, 0], 1),
       drawnItems = L.featureGroup().addTo(map),
       sourcelabels = L.layerGroup().addTo(map),
-      //histolayer = L.tileLayer('./test_tiles2/{z}/map_{x}_{y}.png', {
-      histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
+      histolayer = L.tileLayer('./test_tiles4/{z}/map_{x}_{y}.png', {
+      //histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
         attribution: 'AIMlab'
       }).addTo(map);
 
@@ -208,7 +208,6 @@
 
     //second group of sliders
     topMap.getContainer().style.filter = "hue-rotate(0deg)" + "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
-    topMap.getContainer().style.filter = "sepia(50%)" + "hue-rotate(100deg)";
     var slider4 = document.getElementById("brightness-slider2");
     var slider5 = document.getElementById("contrast-slider2");
     var slider6 = document.getElementById("opacity-slider2");
