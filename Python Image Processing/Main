@@ -29,7 +29,6 @@ def shift_hue(arr, hout):
     rgb2 = cv2.cvtColor(hsv, cv2.COLOR_HSV2RGB)
     return rgb2
 
-
 arr = np.array(imgwithhue)
 arr2 = np.array(imgwithhue2)
 arr3 = np.array(imgwithhue3)
@@ -41,15 +40,16 @@ if __name__=='__main__':
     blue_hue = 90
 
     colored_img1 = Image.fromarray(shift_hue(arr, red_hue))
-    colored_img1.save('image1_red.png')
+    colored_img1.save('image1_red.jpg') #saved as jpg for the jupyter notebook (for tile generation)
 
     colored_img2 = Image.fromarray(shift_hue(arr2, green_hue))
-    colored_img2.save('image2_green.png')
+    colored_img2.save('image2_green.jpg')
 
     colored_img3 = Image.fromarray(shift_hue(arr3, blue_hue))
-    colored_img3.save('image3_blue.png')
+    colored_img3.save('image3_blue.jpg')
 
 
+# code for image compositing; in case two layers need to be flattened/composited before uploading to leaflet
 imgrgba1 = colored_img1.convert("RGBA")
 img1arr = np.array(imgrgba1)
 image1_float = img1arr.astype(float)  # Inputs to blend_modes need to be floats
@@ -62,7 +62,6 @@ imgrgba3 = colored_img3.convert("RGBA")
 img3arr = np.array(imgrgba3)
 image3_float = img3arr.astype(float)  # Inputs to blend_modes need to be floats
 
-
 multiply_img = blend_modes.multiply(image1_float, image2_float, 1)
 multiply2_img = blend_modes.multiply(multiply_img, image3_float, 1)
 uint8_img = np.uint8(multiply2_img) # Image needs to be converted back to uint8 type for PIL handling.
@@ -71,9 +70,7 @@ final_img.show()
 final_img.save("multiply.png", "PNG")
 
 
-# TODO: find a way to convert RGBA image to JPG
-# TODO: overlay image on a white square --> ensures saved image is a square
-# png_image = Image.open("multiply.png")
-# jpg_image = png_image.save("multiply.jpg", "JPEG")
+# Note: final image must be overlaid onto a background with dimensions proportional to tile size
+# this ensures tiles are exactly squares so that no stretching occurs!
 
 
