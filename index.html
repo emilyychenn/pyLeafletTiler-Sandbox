@@ -116,7 +116,10 @@
     function postJSONData(JSONData, resID) {
       $.ajax({
         type: "POST",
-        url: "https://git.sarlab.ca:5050/storeJSON/" + resID,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('john:matrix'));
+        },  
+        url: "https://data.sarlab.ca/annotation/storeJSON/" + resID,
         contentType: "application/json",
         data: JSONData
       })
@@ -133,7 +136,10 @@
     function getJSONData(resID, fGroup) {
       $.ajax({
         type: "GET",
-        url: "https://cocalc.sarlab.ca:5050/readJSON/" + resID,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('Authorization', 'Basic ' + btoa('john:matrix'));
+        },  
+        url: "https://data.sarlab.ca/annotation/readJSON/" + resID,
         dataType: 'json'
       })
         .done(function (data) {
@@ -146,10 +152,10 @@
           $("#serverstatus")[0].innerHTML = "Loaded Annotations added to Image.";
         })
         .fail(function (data) {
-          if (data['status'] == 404) {
+          if (data["status"] == 404) {
             $("#serverstatus")[0].innerHTML = "No annotations found on Server.";
           } else {
-            alert("Error Loading Data");
+            alert("Error Loading Data: "+data["status"]);
           };
         });
     }
@@ -362,7 +368,7 @@
       }
     }));
     // load server data
-    getJSONData("8888", drawnItems);
+    getJSONData("9999", drawnItems);
 
     // define event hooks to save data etc.
     map.on('draw:drawstart draw:editstart draw:deletestart', function (event) {
@@ -371,11 +377,11 @@
     map.on('draw:created', function (event) {
       var layer = event.layer;
       drawnItems.addLayer(layer);
-      postJSONData(JSON.stringify(drawnItems.toGeoJSON()), "8888");
+      postJSONData(JSON.stringify(drawnItems.toGeoJSON()), "9999");
     });
     map.on('draw:edited draw:deleted', function (event) {
       var layer = event.layer;
-      postJSONData(JSON.stringify(drawnItems.toGeoJSON()), "8888");
+      postJSONData(JSON.stringify(drawnItems.toGeoJSON()), "9999");
     });
 
     // https://gis.stackexchange.com/questions/59571/how-to-add-text-only-labels-on-leaflet-map-with-no-icon
