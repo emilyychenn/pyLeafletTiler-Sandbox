@@ -41,13 +41,13 @@ if __name__=='__main__':
     blue_hue = 90
 
     colored_img1 = Image.fromarray(shift_hue(arr, red_hue))
-    # colored_img1.save('image1_red.png')
+    colored_img1.save('image1_red.png')
 
     colored_img2 = Image.fromarray(shift_hue(arr2, green_hue))
-    # colored_img2.save('image2_green.png')
+    colored_img2.save('image2_green.png')
 
     colored_img3 = Image.fromarray(shift_hue(arr3, blue_hue))
-    # colored_img3.save('image3_blue.png')
+    colored_img3.save('image3_blue.png')
 
 
 imgrgba1 = colored_img1.convert("RGBA")
