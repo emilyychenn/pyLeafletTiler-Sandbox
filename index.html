@@ -52,7 +52,7 @@
           </td>
           <td>
             <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider">
-            <span>Bottom Map Opacity: </span><span id='opacity-value'>100%</span>
+            <span>Layer 1 Opacity: </span><span id='opacity-value'>100%</span>
           </td>
           <td>
             <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider">
@@ -74,7 +74,7 @@
           </td>
           <td>
             <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider2">
-            <span>Top Map Opacity: </span><span id='opacity-value2'>100%</span>
+            <span>Layer 2 Opacity: </span><span id='opacity-value2'>100%</span>
           </td>
           <td>
             <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider2">
@@ -96,7 +96,7 @@
           </td>
           <td>
             <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider3">
-            <span>Top Map Opacity: </span><span id='opacity-value3'>100%</span>
+            <span>Layer 3 Opacity: </span><span id='opacity-value3'>100%</span>
           </td>
           <td>
             <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider3">
@@ -189,9 +189,7 @@
       className: 'bottomLayer'
     });
 
-    //var topMap = new L.tileLayer('./tiles/{z}/tile_{x}_{y}.png', {
     var topMap = L.tileLayer('./carbo_tiles/{z}/map_{x}_{y}.png', {
-    //var topMap = L.tileLayer('./test_tiles/{z}/{x}/{y}.png', {
       layers: 'Layer 3',
       maxZoom: 5,
       minZoom: 1,
@@ -212,7 +210,6 @@
       drawnItems = L.featureGroup().addTo(map),
       sourcelabels = L.layerGroup().addTo(map),
       histolayer = L.tileLayer('./background_tiles/{z}/map_{x}_{y}.png', {
-      //histolayer = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
         attribution: 'AIMlab'
       }).addTo(map);
    
@@ -330,15 +327,15 @@
       topMap.getContainer().style.filter = "hue-rotate(" + this.value + "deg) opacity(" + opacity3 + "%) brightness(" + brightness3 + "%) contrast(" + contrast3 + "%)";
     });
 
-    //Create the opacity controls
-    var higherOpacity = new L.Control.higherOpacity();
-    map.addControl(higherOpacity);
-    var lowerOpacity = new L.Control.lowerOpacity();
-    map.addControl(lowerOpacity);
-    var opacitySlider = new L.Control.opacitySlider();
-    map.addControl(opacitySlider);
+    //Additional alternative opacity controls (on the right side of the window)
+    //var higherOpacity = new L.Control.higherOpacity();
+    //map.addControl(higherOpacity);
+    //var lowerOpacity = new L.Control.lowerOpacity();
+    //map.addControl(lowerOpacity);
+    //var opacitySlider = new L.Control.opacitySlider();
+    //map.addControl(opacitySlider);
     //specifies layer which opacity will be modified:
-    opacitySlider.setOpacityLayer(topMap);
+    //opacitySlider.setOpacityLayer(topMap);
     //set initial opacity to 0.5:
     //topMap.setOpacity(0.5);
 
@@ -386,7 +383,6 @@
 
     // https://gis.stackexchange.com/questions/59571/how-to-add-text-only-labels-on-leaflet-map-with-no-icon
     //opacity may be set to zero for no marker
-    //var marker = new L.marker([-39.5, 50], { opacity: 0.2 });
     var marker = new L.marker([-50, 50], { opacity: 0.5 });
     marker.bindTooltip("some histoname", {
       permanent: true, className: "my-label", offset: [0, 0]
