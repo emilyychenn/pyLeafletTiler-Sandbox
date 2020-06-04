@@ -41,7 +41,7 @@
     <div style="width:100%; display: table;">
       <tr>
         <div class="slider1">
-          <td>Bottom Layer (Histolayer): </td>
+          <td>Layer 1: </td>
           <td>
             <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider">
             <span>Brightness: </span><span id='brightness-value'>100%</span>
@@ -52,7 +52,7 @@
           </td>
           <td>
             <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider">
-            <span>Bottom Map Opacity: </span><span id='opacity-value'>100% </span>
+            <span>Bottom Map Opacity: </span><span id='opacity-value'>100%</span>
           </td>
           <td>
             <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider">
@@ -63,7 +63,7 @@
       <!-- brightness, contrast, opacity sliders for second layer -->
       <tr>
         <div class="slider2">
-          <td>Top/Upper Layer: </td>
+          <td>Layer 2: </td>
           <td>
             <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider2">
             <span>Brightness: </span><span id='brightness-value2'>100%</span>
@@ -79,6 +79,28 @@
           <td>
             <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider2">
             <span>Hue: </span><span id='hue-value2'>0 degrees</span>
+          </td>
+        </div>
+      </tr>
+      <!-- 3rd group of sliders -->
+      <tr>
+          <div class="slider3">
+          <td>Layer 3: </td>
+          <td>
+            <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider3">
+            <span>Brightness: </span><span id='brightness-value3'>100%</span>
+          </td>
+          <td>
+            <input type="range" min="0" max="200" value="100" class="slider" id="contrast-slider3">
+            <span>Contrast: </span><span id='contrast-value3'>100%</span>
+          </td>
+          <td>
+            <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider3">
+            <span>Top Map Opacity: </span><span id='opacity-value3'>100%</span>
+          </td>
+          <td>
+            <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider3">
+            <span>Hue: </span><span id='hue-value3'>0 degrees</span>
           </td>
         </div>
       </tr>
@@ -144,7 +166,16 @@
 
     //var bottomMap = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
     var bottomMap = L.tileLayer('./pimo_tiles/{z}/map_{x}_{y}.png', {
-      layers: 'BottomLayer',
+      layers: 'Layer 1',
+      maxZoom: 5,
+      minZoom: 1,
+      format: 'image/png',
+      transparent: true,
+      className: 'bottomLayer'
+    });
+
+    var middleMap = L.tileLayer('./CD31_tiles/{z}/map_{x}_{y}.png', {
+      layers: 'Layer 2',
       maxZoom: 5,
       minZoom: 1,
       format: 'image/png',
@@ -153,9 +184,9 @@
     });
 
     //var topMap = new L.tileLayer('./tiles/{z}/tile_{x}_{y}.png', {
-    var topMap = L.tileLayer('./carbo_CD31 tiles/{z}/map_{x}_{y}.png', {
+    var topMap = L.tileLayer('./carbo_tiles/{z}/map_{x}_{y}.png', {
     //var topMap = L.tileLayer('./test_tiles/{z}/{x}/{y}.png', {
-      layers: 'TopLayer',
+      layers: 'Layer 3',
       maxZoom: 5,
       minZoom: 1,
       format: 'image/png',
@@ -169,7 +200,7 @@
       maxZoom: 5,
       minZoom: 1,
       crs: L.CRS.Simple,
-      layers: [background, bottomMap, topMap],
+      layers: [background, bottomMap, middleMap, topMap],
       zoomControl: true
     }).setView([0, 0], 1),
       drawnItems = L.featureGroup().addTo(map),
@@ -184,7 +215,7 @@
     var slider1 = document.getElementById("brightness-slider");
     var slider2 = document.getElementById("contrast-slider");
     var slider3 = document.getElementById("opacity-slider");
-    var slider7 = document.getElementById("hue-slider");
+    var slider4 = document.getElementById("hue-slider");
 
     var brightnessSpan = document.getElementById("brightness-value");
     var contrastSpan = document.getElementById("contrast-value");
@@ -194,7 +225,7 @@
     var brightness = slider1.value;
     var contrast = slider2.value;
     var opacity = slider3.value;
-    var hue = slider7.value;
+    var hue = slider4.value;
 
     slider1.addEventListener("input", function (e) {
       brightness = e.target.value;
@@ -211,17 +242,17 @@
       opacitySpan.textContent = opacity + "%";
       bottomMap.getContainer().style.filter = "hue-rotate(" + hue + "deg) opacity(" + this.value + "%) brightness(" + brightness + "%) contrast(" + contrast + "%)";
     });
-    slider7.addEventListener("input", function (e) {
+    slider4.addEventListener("input", function (e) {
       hue = e.target.value;
       hueSpan.textContent = hue + " degrees";
       bottomMap.getContainer().style.filter = "hue-rotate(" + this.value + "deg) opacity(" + opacity + "%) brightness(" + brightness + "%) contrast(" + contrast + "%)";
     });
 
     //second group of sliders
-    topMap.getContainer().style.filter = "hue-rotate(0deg)" + "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
-    var slider4 = document.getElementById("brightness-slider2");
-    var slider5 = document.getElementById("contrast-slider2");
-    var slider6 = document.getElementById("opacity-slider2");
+    middleMap.getContainer().style.filter = "hue-rotate(0deg)" + "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
+    var slider5 = document.getElementById("brightness-slider2");
+    var slider6 = document.getElementById("contrast-slider2");
+    var slider7 = document.getElementById("opacity-slider2");
     var slider8 = document.getElementById("hue-slider2");
 
     var brightnessSpan2 = document.getElementById("brightness-value2");
@@ -229,30 +260,68 @@
     var opacitySpan2 = document.getElementById("opacity-value2");
     var hueSpan2 = document.getElementById("hue-value2");
 
-    var brightness2 = slider4.value;
-    var contrast2 = slider5.value;
-    var opacity2 = slider6.value;
+    var brightness2 = slider5.value;
+    var contrast2 = slider6.value;
+    var opacity2 = slider7.value;
     var hue2 = slider8.value;
 
-    slider4.addEventListener("input", function (e) {
+    slider5.addEventListener("input", function (e) {
       brightness2 = e.target.value;
       brightnessSpan2.textContent = brightness2 + "%";
-      topMap.getContainer().style.filter = "hue-rotate(" + hue2 + "deg) opacity(" + opacity2 + "%) brightness(" + this.value + "%) contrast(" + contrast2 + "%)";
-    });
-    slider5.addEventListener("input", function (e) {
-      contrast2 = e.target.value;
-      contrastSpan2.textContent = contrast2 + "%";
-      topMap.getContainer().style.filter = "hue-rotate(" + hue2 + "deg) opacity(" + opacity2 + "%) brightness(" + brightness2 + "%) contrast(" + this.value + "%)";
+      middleMap.getContainer().style.filter = "hue-rotate(" + hue2 + "deg) opacity(" + opacity2 + "%) brightness(" + this.value + "%) contrast(" + contrast2 + "%)";
     });
     slider6.addEventListener("input", function (e) {
+      contrast2 = e.target.value;
+      contrastSpan2.textContent = contrast2 + "%";
+      middleMap.getContainer().style.filter = "hue-rotate(" + hue2 + "deg) opacity(" + opacity2 + "%) brightness(" + brightness2 + "%) contrast(" + this.value + "%)";
+    });
+    slider7.addEventListener("input", function (e) {
       opacity2 = e.target.value;
       opacitySpan2.textContent = opacity2 + "%";
-      topMap.getContainer().style.filter = "hue-rotate(" + hue2 + "deg) opacity(" + this.value + "%) brightness(" + brightness2 + "%) contrast(" + contrast2 + "%)";
+      middleMap.getContainer().style.filter = "hue-rotate(" + hue2 + "deg) opacity(" + this.value + "%) brightness(" + brightness2 + "%) contrast(" + contrast2 + "%)";
     });
     slider8.addEventListener("input", function (e) {
       hue2 = e.target.value;
       hueSpan2.textContent = hue2 + " degrees";
-      topMap.getContainer().style.filter = "hue-rotate(" + this.value + "deg) opacity(" + opacity2 + "%) brightness(" + brightness2 + "%) contrast(" + contrast2 + "%)";
+      middleMap.getContainer().style.filter = "hue-rotate(" + this.value + "deg) opacity(" + opacity2 + "%) brightness(" + brightness2 + "%) contrast(" + contrast2 + "%)";
+    });
+
+    //third group of sliders
+    topMap.getContainer().style.filter = "hue-rotate(0deg)" + "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
+    var slider9 = document.getElementById("brightness-slider3");
+    var slider10 = document.getElementById("contrast-slider3");
+    var slider11 = document.getElementById("opacity-slider3");
+    var slider12 = document.getElementById("hue-slider3");
+
+    var brightnessSpan3 = document.getElementById("brightness-value3");
+    var contrastSpan3 = document.getElementById("contrast-value3");
+    var opacitySpan3 = document.getElementById("opacity-value3");
+    var hueSpan3 = document.getElementById("hue-value3");
+
+    var brightness3 = slider9.value;
+    var contrast3 = slider10.value;
+    var opacity3 = slider11.value;
+    var hue3 = slider12.value;
+
+    slider9.addEventListener("input", function (e) {
+      brightness3 = e.target.value;
+      brightnessSpan3.textContent = brightness3 + "%";
+      topMap.getContainer().style.filter = "hue-rotate(" + hue3 + "deg) opacity(" + opacity3 + "%) brightness(" + this.value + "%) contrast(" + contrast3 + "%)";
+    });
+    slider10.addEventListener("input", function (e) {
+      contrast3 = e.target.value;
+      contrastSpan3.textContent = contrast3 + "%";
+      topMap.getContainer().style.filter = "hue-rotate(" + hue3 + "deg) opacity(" + opacity3 + "%) brightness(" + brightness3 + "%) contrast(" + this.value + "%)";
+    });
+    slider11.addEventListener("input", function (e) {
+      opacity3 = e.target.value;
+      opacitySpan3.textContent = opacity3 + "%";
+      topMap.getContainer().style.filter = "hue-rotate(" + hue3 + "deg) opacity(" + this.value + "%) brightness(" + brightness3 + "%) contrast(" + contrast3 + "%)";
+    });
+    slider12.addEventListener("input", function (e) {
+      hue3 = e.target.value;
+      hueSpan3.textContent = hue3 + " degrees";
+      topMap.getContainer().style.filter = "hue-rotate(" + this.value + "deg) opacity(" + opacity3 + "%) brightness(" + brightness3 + "%) contrast(" + contrast3 + "%)";
     });
 
     //Create the opacity controls
@@ -272,8 +341,9 @@
     var overlays = {
       "Source Labels": sourcelabels,
       "Annotations": drawnItems,
-      "Bottom Layer": bottomMap,
-      "Top Layer": topMap
+      "Layer 1": bottomMap,
+      "Layer 2": middleMap,
+      "Layer 3": topMap
     };
     L.control.layers(
       { 'histo': histolayer },
