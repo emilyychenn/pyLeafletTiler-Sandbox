@@ -40,9 +40,10 @@
   <label for="layers">Select a layer to adjust:</label>
     <select id="layers-dropdown">
       <option disabled selected>Select a Layer</option>
-      <option id="layer-1">Layer 1</option>
-      <option id="layer-2">Layer 2</option>
-      <option id="layer-3">Layer 3</option>
+      <option>Layer 1</option>
+      <option>Layer 2</option>
+      <option>Layer 3</option>
+      <option>View All</option>
     </select>
   </div>
 
@@ -238,55 +239,59 @@
     document.getElementById("slider3").style.overflow="hidden";
   
 
-    document.getElementById("layers-dropdown").addEventListener("change", displaySlider); 
-    var selected_layer = document.getElementById("layers-dropdown").value;
-
     function displaySlider() {
       var selected_layer = document.getElementById("layers-dropdown").value;
-      alert(selected_layer); 
+      //alert(selected_layer); 
 
       if (selected_layer == "Layer 1") {
+        document.getElementById("slider1").style.clip="rect(1px,1px,1px,1px)";
+        document.getElementById("slider1").style.position="relative";
+
+        document.getElementById("slider2").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider2").style.position="absolute";
+        document.getElementById("slider2").style.overflow="hidden";
+
+        document.getElementById("slider3").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider3").style.position="absolute";
+        document.getElementById("slider3").style.overflow="hidden";
+      }
+      else if (selected_layer == "Layer 2") {
+        document.getElementById("slider1").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider1").style.position="absolute";
+        document.getElementById("slider1").style.overflow="hidden";
+
+        document.getElementById("slider2").style.clip="rect(1px,1px,1px,1px)";
+        document.getElementById("slider2").style.position="relative";
+
+        document.getElementById("slider3").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider3").style.position="absolute";
+        document.getElementById("slider3").style.overflow="hidden";
+      } 
+      else if (selected_layer == "Layer 3") {
+        document.getElementById("slider1").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider1").style.position="absolute";
+        document.getElementById("slider1").style.overflow="hidden";
+
+        document.getElementById("slider2").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider2").style.position="absolute";
+        document.getElementById("slider2").style.overflow="hidden";
+
+        document.getElementById("slider3").style.clip="rect(1px,1px,1px,1px)";
+        document.getElementById("slider3").style.position="relative";
+      } 
+      else if (selected_layer == "View All") {
         document.getElementById("slider1").style.clip="rect(10px,10px,10px,10px)";
         document.getElementById("slider1").style.position="relative";
-        document.getElementById("slider1").style.overflow="visible";
-
-        document.getElementById("slider2").style.clip="rect(0px,0px,0px,0px)";
-        document.getElementById("slider2").style.position="absolute";
-        document.getElementById("slider2").style.overflow="hidden";
-
-        document.getElementById("slider3").style.clip="rect(0px,0px,0px,0px)";
-        document.getElementById("slider3").style.position="absolute";
-        document.getElementById("slider3").style.overflow="hidden";
-      } 
-      else if (layer2selected == "Layer 2") {
-        document.getElementById("slider1").style.clip="rect(0px,0px,0px,0px)";
-        document.getElementById("slider1").style.position="absolute";
-        document.getElementById("slider1").style.overflow="hidden";
-
+        
         document.getElementById("slider2").style.clip="rect(10px,10px,10px,10px)";
         document.getElementById("slider2").style.position="relative";
-        document.getElementById("slider2").style.overflow="visible";
-
-        document.getElementById("slider3").style.clip="rect(0px,0px,0px,0px)";
-        document.getElementById("slider3").style.position="absolute";
-        document.getElementById("slider3").style.overflow="hidden";
-      } 
-      else if (layer3selected == "Layer 3") {
-        document.getElementById("slider1").style.clip="rect(0px,0px,0px,0px)";
-        document.getElementById("slider1").style.position="absolute";
-        document.getElementById("slider1").style.overflow="hidden";
-
-        document.getElementById("slider2").style.clip="rect(0px,0px,0px,0px)";
-        document.getElementById("slider2").style.position="absolute";
-        document.getElementById("slider2").style.overflow="hidden";
-
+        
         document.getElementById("slider3").style.clip="rect(10px,10px,10px,10px)";
         document.getElementById("slider3").style.position="relative";
-        document.getElementById("slider3").style.overflow="visible";
-      } 
-      else {
-      } 
-    }
+      }
+    };
+
+    document.getElementById("layers-dropdown").addEventListener("change", displaySlider); 
   
 
     // first group of sliders    
