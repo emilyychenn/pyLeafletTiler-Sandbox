@@ -8,21 +8,12 @@
   <meta charset="utf-8">
 
   <script type="text/javascript" src="leaflet.js"></script>
-  <!--script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.js" integrity="sha256-6BZRSENq3kxI4YYBDqJ23xg0r1GwTHEpvp3okdaIqBw=" crossorigin="anonymous"-->
-  <!--/script-->
   <link rel="stylesheet" type="text/css" href="leaflet.css">
-  <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.4.0/leaflet.css" integrity="sha256-YR4HrDE479EpYZgeTkQfgVJq08+277UXxMLbi/YP69o=" crossorigin="anonymous" /-->
 
   <script type="text/javascript" src="leaflet_draw.js"></script>
-  <!--script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha256-siofc4Uwjlra3YWkwthOn8Uj69cNN4aMug/iOHNiRgs=" crossorigin="anonymous"></script-->
   <link rel="stylesheet" type="text/css" href="leaflet-draw.css">
-  <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" integrity="sha256-XzD3RpaHPv7lzX9qt+2n1j5cWj48O24KsgaGYpKN8x8=" crossorigin="anonymous" /-->
 
   <script type="text/javascript" src="jQuery_v3.4.0.js"></script>
-  <!--script crossorigin="anonymous" integrity=
-    "sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" src=
-    "https://code.jquery.com/jquery-3.4.0.min.js"-->
-  <!--/script-->
 
   <link rel="stylesheet" href="Control.Opacity.css"/>
   <script src="Control.Opacity.js"></script>
@@ -30,13 +21,12 @@
   <script src="OpacitySliderJQuery/jquery-1.9.1.js"></script>
   <script src="OpacitySliderJQuery/jquery-ui-1.10.3.custom.min.js"></script>
   <link rel="stylesheet" href="OpacitySliderJQuery/jquery-ui-1.10.3.custom.min.css" />
-
 </head>
 
 <body>
   <div id="serverstatus" style="height:5mm"></div>
 
-  <div class = dropdown id="selector">
+  <div class="dropdown", id="selector">
   <label for="layers">Select a layer to adjust:</label>
     <select id="layers-dropdown">
       <option disabled selected>Select a Layer</option>
@@ -71,7 +61,7 @@
           </td>
         </tbody>
       </tr>
-      <!-- brightness, contrast, opacity sliders for second layer -->
+      <!-- 2nd group of sliders -->
       <tr>
         <tbody id="slider2">
           <td>Layer 2: </td>
@@ -241,8 +231,6 @@
 
     function displaySlider() {
       var selected_layer = document.getElementById("layers-dropdown").value;
-      //alert(selected_layer); 
-
       if (selected_layer == "Layer 1") {
         document.getElementById("slider1").style.clip="rect(1px,1px,1px,1px)";
         document.getElementById("slider1").style.position="relative";
@@ -254,8 +242,7 @@
         document.getElementById("slider3").style.clip="rect(0px,0px,0px,0px)";
         document.getElementById("slider3").style.position="absolute";
         document.getElementById("slider3").style.overflow="hidden";
-      }
-      else if (selected_layer == "Layer 2") {
+      } else if (selected_layer == "Layer 2") {
         document.getElementById("slider1").style.clip="rect(0px,0px,0px,0px)";
         document.getElementById("slider1").style.position="absolute";
         document.getElementById("slider1").style.overflow="hidden";
@@ -266,8 +253,7 @@
         document.getElementById("slider3").style.clip="rect(0px,0px,0px,0px)";
         document.getElementById("slider3").style.position="absolute";
         document.getElementById("slider3").style.overflow="hidden";
-      } 
-      else if (selected_layer == "Layer 3") {
+      } else if (selected_layer == "Layer 3") {
         document.getElementById("slider1").style.clip="rect(0px,0px,0px,0px)";
         document.getElementById("slider1").style.position="absolute";
         document.getElementById("slider1").style.overflow="hidden";
@@ -278,8 +264,7 @@
 
         document.getElementById("slider3").style.clip="rect(1px,1px,1px,1px)";
         document.getElementById("slider3").style.position="relative";
-      } 
-      else if (selected_layer == "View All") {
+      } else if (selected_layer == "View All") {
         document.getElementById("slider1").style.clip="rect(10px,10px,10px,10px)";
         document.getElementById("slider1").style.position="relative";
         
@@ -291,7 +276,7 @@
       }
     };
 
-    document.getElementById("layers-dropdown").addEventListener("change", displaySlider); 
+    document.getElementById("layers-dropdown").addEventListener("change", displaySlider);  //to listen for selection 
   
 
     // first group of sliders    
@@ -409,7 +394,6 @@
     });
 
     var baseLayers = { "Histolayer": histolayer };
-
     var overlays = {
       "Source Labels": sourcelabels,
       "Annotations": drawnItems,
