@@ -36,11 +36,21 @@
 <body>
   <div id="serverstatus" style="height:5mm"></div>
 
+  <div class = dropdown id="selector">
+  <label for="layers">Select a layer to adjust:</label>
+    <select id="layers-dropdown">
+      <option disabled selected>Select a Layer</option>
+      <option id="layer-1">Layer 1</option>
+      <option id="layer-2">Layer 2</option>
+      <option id="layer-3">Layer 3</option>
+    </select>
+  </div>
+
   <!-- brightness, contrast, opacity, hue sliders -->
-  <table style="width:100%">
+  <table style="width:100%" id="image-sliders">
     <div style="width:100%; display: table;">
       <tr>
-        <div class="slider1">
+        <tbody id="slider1">
           <td>Layer 1: </td>
           <td>
             <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider">
@@ -52,17 +62,17 @@
           </td>
           <td>
             <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider">
-            <span>Layer 1 Opacity: </span><span id='opacity-value'>100%</span>
+            <span>Opacity: </span><span id='opacity-value'>100%</span>
           </td>
           <td>
             <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider">
             <span>Hue: </span><span id='hue-value'>0 degrees</span>
           </td>
-        </div>
+        </tbody>
       </tr>
       <!-- brightness, contrast, opacity sliders for second layer -->
       <tr>
-        <div class="slider2">
+        <tbody id="slider2">
           <td>Layer 2: </td>
           <td>
             <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider2">
@@ -74,17 +84,17 @@
           </td>
           <td>
             <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider2">
-            <span>Layer 2 Opacity: </span><span id='opacity-value2'>100%</span>
+            <span>Opacity: </span><span id='opacity-value2'>100%</span>
           </td>
           <td>
             <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider2">
             <span>Hue: </span><span id='hue-value2'>0 degrees</span>
           </td>
-        </div>
+        </tbody>
       </tr>
       <!-- 3rd group of sliders -->
       <tr>
-          <div class="slider3">
+          <tbody id="slider3">
           <td>Layer 3: </td>
           <td>
             <input type="range" min="0" max="200" value="100" class="slider" id="brightness-slider3">
@@ -96,18 +106,16 @@
           </td>
           <td>
             <input type="range" min="0" max="100" value="100" class="slider" id="opacity-slider3">
-            <span>Layer 3 Opacity: </span><span id='opacity-value3'>100%</span>
+            <span>Opacity: </span><span id='opacity-value3'>100%</span>
           </td>
           <td>
             <input type="range" min="0" max="360" value="0" class="slider" id="hue-slider3">
             <span>Hue: </span><span id='hue-value3'>0 degrees</span>
           </td>
-        </div>
+        </tbody>
       </tr>
     </div>
   </table>
-
-  
 
   <div id="map" style="width: 100hh; height: 98vh; border: 1px solid #ccc">
   </div>
@@ -160,17 +168,17 @@
         });
     }
  
-    //create the map
+    //create the map: white background
     var background = L.tileLayer('./background_tiles/{z}/map_{x}_{y}.png', {
       layers: 'BackgroundLayer',
       maxZoom: 5,
       minZoom: 1,
       format: 'image/png',
       transparent: true,
-      className: 'backgroundLayer'
+      className: 'backgroundLayer' //using classnames, set each layer to multiply blend mode in css
     });
 
-    //var bottomMap = L.tileLayer('https://pfeifer.phas.ubc.ca/map/tiles/{z}/tile_{x}_{y}.png', {
+    //create map layers
     var bottomMap = L.tileLayer('./pimo_tiles/{z}/map_{x}_{y}.png', {
       layers: 'Layer 1',
       maxZoom: 5,
@@ -213,7 +221,75 @@
         attribution: 'AIMlab'
       }).addTo(map);
    
+    
     //brightness and contrast slider, opacity slider for bottom layer
+
+    //default: no sliders shown 
+    document.getElementById("slider1").style.clip="rect(0px,0px,0px,0px)";
+    document.getElementById("slider1").style.position="absolute";
+    document.getElementById("slider1").style.overflow="hidden";
+
+    document.getElementById("slider2").style.clip="rect(0px,0px,0px,0px)";
+    document.getElementById("slider2").style.position="absolute";
+    document.getElementById("slider2").style.overflow="hidden";
+
+    document.getElementById("slider3").style.clip="rect(0px,0px,0px,0px)";
+    document.getElementById("slider3").style.position="absolute";
+    document.getElementById("slider3").style.overflow="hidden";
+  
+
+    document.getElementById("layers-dropdown").addEventListener("change", displaySlider); 
+    var selected_layer = document.getElementById("layers-dropdown").value;
+
+    function displaySlider() {
+      var selected_layer = document.getElementById("layers-dropdown").value;
+      alert(selected_layer); 
+
+      if (selected_layer == "Layer 1") {
+        document.getElementById("slider1").style.clip="rect(10px,10px,10px,10px)";
+        document.getElementById("slider1").style.position="relative";
+        document.getElementById("slider1").style.overflow="visible";
+
+        document.getElementById("slider2").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider2").style.position="absolute";
+        document.getElementById("slider2").style.overflow="hidden";
+
+        document.getElementById("slider3").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider3").style.position="absolute";
+        document.getElementById("slider3").style.overflow="hidden";
+      } 
+      else if (layer2selected == "Layer 2") {
+        document.getElementById("slider1").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider1").style.position="absolute";
+        document.getElementById("slider1").style.overflow="hidden";
+
+        document.getElementById("slider2").style.clip="rect(10px,10px,10px,10px)";
+        document.getElementById("slider2").style.position="relative";
+        document.getElementById("slider2").style.overflow="visible";
+
+        document.getElementById("slider3").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider3").style.position="absolute";
+        document.getElementById("slider3").style.overflow="hidden";
+      } 
+      else if (layer3selected == "Layer 3") {
+        document.getElementById("slider1").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider1").style.position="absolute";
+        document.getElementById("slider1").style.overflow="hidden";
+
+        document.getElementById("slider2").style.clip="rect(0px,0px,0px,0px)";
+        document.getElementById("slider2").style.position="absolute";
+        document.getElementById("slider2").style.overflow="hidden";
+
+        document.getElementById("slider3").style.clip="rect(10px,10px,10px,10px)";
+        document.getElementById("slider3").style.position="relative";
+        document.getElementById("slider3").style.overflow="visible";
+      } 
+      else {
+      } 
+    }
+  
+
+    // first group of sliders    
     bottomMap.getContainer().style.filter = "hue-rotate(0deg)" + "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
     var slider1 = document.getElementById("brightness-slider");
     var slider2 = document.getElementById("contrast-slider");
@@ -250,7 +326,7 @@
       hueSpan.textContent = hue + " degrees";
       bottomMap.getContainer().style.filter = "hue-rotate(" + this.value + "deg) opacity(" + opacity + "%) brightness(" + brightness + "%) contrast(" + contrast + "%)";
     });
-
+        
     //second group of sliders
     middleMap.getContainer().style.filter = "hue-rotate(0deg)" + "brightness(100%)" + "contrast(100%)" + "opacity(100%)";
     var slider5 = document.getElementById("brightness-slider2");
@@ -326,18 +402,6 @@
       hueSpan3.textContent = hue3 + " degrees";
       topMap.getContainer().style.filter = "hue-rotate(" + this.value + "deg) opacity(" + opacity3 + "%) brightness(" + brightness3 + "%) contrast(" + contrast3 + "%)";
     });
-
-    //Additional alternative opacity controls (on the right side of the window)
-    //var higherOpacity = new L.Control.higherOpacity();
-    //map.addControl(higherOpacity);
-    //var lowerOpacity = new L.Control.lowerOpacity();
-    //map.addControl(lowerOpacity);
-    //var opacitySlider = new L.Control.opacitySlider();
-    //map.addControl(opacitySlider);
-    //specifies layer which opacity will be modified:
-    //opacitySlider.setOpacityLayer(topMap);
-    //set initial opacity to 0.5:
-    //topMap.setOpacity(0.5);
 
     var baseLayers = { "Histolayer": histolayer };
 

@@ -657,10 +657,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
 }
 
 /* sliders css */
-.slider1 {
+/* .slider1 {
   width: 800 px;
-  /* width: 250 px;
-	float: left; */
   background-color: #fff;
 }
 
@@ -668,16 +666,34 @@ svg.leaflet-image-layer.leaflet-interactive path {
   width: 1000px;
   /* width: 250 px;
 	padding-left: 100 px; */
-  background-color: #fff;
+  /* background-color: #fff;
+} */
+
+#slider1 {
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
 }
 
-/* sliders div table formatting */
-.sliders-table {
-  width: 100%;
-  display: table;
+#slider2 {
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
 }
 
-/* tile layer multiply blend mode */
+#slider3 {
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  border: 0;
+  padding: 0;
+}
+
+/* tile layer multiply blend mode: set each to multiply (for each layer!) */
 .backgroundLayer {
   mix-blend-mode: multiply;
 }
