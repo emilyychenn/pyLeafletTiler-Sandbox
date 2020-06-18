@@ -6,7 +6,8 @@ This repo contains the commit history of pyLeafletTiler as it was being built, a
 Displays multiple histo images overlayed on top of each other. Images can be viewed at different zoom levels for more/less detail, and individual layers can be toggled on/off to show or hide the layer. Markers and annotations can be added (e.g. to indicate ROIs) at different zoom levels.
 
 ## Usage
-As of right now, images must first be loaded into the Main.py file for processing (to add hue). These processed images should then be loaded into the Jupyter notebook to create tiles saved in a specific folder structure, and then this can be referenced in the html code to load the Leaflet app.
+As of right now, images must first be loaded into the Main.py file for processing (to add hue). These processed images should then be loaded into the Jupyter notebook to create tiles saved in a specific folder structure, and then this can be referenced in the html code to load the image in the Leaflet app.
+(will be changed to add docopt)
 
 ## Dependencies
 * Imagemagick for the hard part of recursive image tiling
